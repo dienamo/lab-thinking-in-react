@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import data from './data.json'
+import FilterableProductTable from './components/FilterableProductTable';
 
 class App extends Component {
+
+  state={
+    productsArray : data
+  }
+
+  searchEngine = (theletters) => {
+    let filteredList = this.state.productsArray.data.filter(theProduct => {
+      return theProduct.name.toLowerCase().indexOf(theletters.toLowerCase()) !== -1;
+    })
+    console.log('woooooooooooooooo....................',filteredList)
+    this.setState({
+      productsArray : filteredList
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <FilterableProductTable products={ this.state.productsArray } startSearch={this.searchEngine}/>
       </div>
     );
   }
